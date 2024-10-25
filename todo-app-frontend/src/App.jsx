@@ -1,11 +1,18 @@
 import { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import AuthForm from "./components/AuthForm";
+import Home from "./components/Home";
+import { Login } from "./pages/Login";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      <p>Hello world</p>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </Router>
     </>
   );
 }
