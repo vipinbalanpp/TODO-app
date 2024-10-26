@@ -1,8 +1,7 @@
-import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import AuthForm from "./components/AuthForm";
 import Home from "./components/Home";
 import { Login } from "./pages/Login";
+import ProjectDetils from "./pages/ProjectDetails";
 
 function App() {
   return (
@@ -11,6 +10,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/projectDetials/:title" element={<ProjectDetils />} />
         </Routes>
       </Router>
     </>

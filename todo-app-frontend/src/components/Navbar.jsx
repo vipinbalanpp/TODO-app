@@ -20,9 +20,9 @@ const Navbar = () => {
   return (
     <div className="p-10  h-8 w-full flex items-center gap-2 justify-between border border-b-2">
       <div></div>
-      <div className="flex">
+      <div className="flex items-center">
         <img className="h-10 w-10" src={logo} />
-        <p className="text-2xl text-red-500 font-bold">TODO APP</p>
+        <p className="text-2xl text-blue-700 font-bold">TODO APP</p>
       </div>
       <div>
         {location.pathname !== "/login" && (

@@ -61,6 +61,7 @@ const AuthForm = () => {
         if (response.data) {
           setLoginError(null);
           console.log(response.data);
+          navigate("/");
         }
       } catch (error) {
         console.error("Error during authentication:", error);
@@ -86,6 +87,7 @@ const AuthForm = () => {
       return true;
     }
   };
+
   const validateUsername = () => {
     if (username.length < 3) {
       setUsernameError("Username is too small");

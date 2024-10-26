@@ -21,6 +21,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -134,6 +135,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         jwtCookie.setMaxAge(0);
         response.addCookie(jwtCookie);
         HttpSession session = request.getSession(false);
+    }
+
+    @Override
+    public Long getUserIdFromToken(HttpServletRequest request) {
+        String jwt = getJwtFromRequest(request);
+        if(jwt == null){
+            throw new RuntimeException("Unauthenticated");
+        }
+        String username = jwtService.extractUsername(jwt);
+        var user = userRepository.findByUsername(username).orElse(null);
+        if(user != null){
+            return user.getId();
+        }return null;
+    }
+    public String getJwtFromRequest(HttpServletRequest request){
+        String jwt =null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("jwt".equals(cookie.getName())) {
+                    jwt = cookie.getValue();
+                    break;
+                }
+            }
+        }return jwt;
     }
 
     public void setCookieInResponse(HttpServletResponse response, String token) {

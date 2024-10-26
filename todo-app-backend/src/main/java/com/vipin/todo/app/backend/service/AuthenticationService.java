@@ -13,4 +13,6 @@ public interface AuthenticationService {
     Boolean checkAuthentication(HttpServletRequest request);
 
     void handleLogout(HttpServletRequest request, HttpServletResponse response);
+
+    Long getUserIdFromToken(HttpServletRequest request);
 }
