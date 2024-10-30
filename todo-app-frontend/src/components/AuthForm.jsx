@@ -1,7 +1,8 @@
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { instance } from "../config";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../UserContex";
 
 const AuthForm = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const AuthForm = () => {
   const [loginError, setLoginError] = useState(null);
   const [passWordMismathError, setPasswordMismatchError] = useState(null);
   const [registerError, setRegisterError] = useState(null);
+  const { user, setUser } = useContext(UserContext);
 
   const handleAuth = async (e) => {
     e.preventDefault();
@@ -35,6 +37,7 @@ const AuthForm = () => {
         console.log(response.data);
         if (response.data) {
           setLoginError(null);
+          setUser(response.data);
           navigate("/");
         }
       } catch (error) {
@@ -61,6 +64,7 @@ const AuthForm = () => {
         if (response.data) {
           setLoginError(null);
           console.log(response.data);
+          setUser(response.data);
           navigate("/");
         }
       } catch (error) {

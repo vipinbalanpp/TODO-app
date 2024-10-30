@@ -1,4 +1,5 @@
 package com.vipin.todo.app.backend.service.impl;
+import com.vipin.todo.app.backend.model.dto.AuthCheckResponse;
 import com.vipin.todo.app.backend.model.dto.AuthenticationResponseDto;
 import com.vipin.todo.app.backend.model.dto.RegisterRequestDto;
 import com.vipin.todo.app.backend.model.entity.Role;
@@ -59,7 +60,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthenticationResponseDto authenticate(RegisterRequestDto request,HttpServletResponse response) {
         if(!userRepository.existsByUsername(request.getUsername())){
-            throw new EntityNotFoundException("User not found with username: "+request.getPassword());
+            throw new EntityNotFoundException("User not found with username: "+request.getUsername());
         }
         var user = userRepository.findByUsername(request.getUsername()).orElseThrow()  ;
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
@@ -82,17 +83,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public Boolean checkAuthentication(HttpServletRequest request) {
+    public AuthCheckResponse checkAuthentication(HttpServletRequest request) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication == null || !authentication.isAuthenticated()
                     || authentication instanceof AnonymousAuthenticationToken) {
-                return false;
+                return new AuthCheckResponse(false,new AuthenticationResponseDto(null));
             }
             log.info("authentication: {}",authentication);
             Cookie[] cookies = request.getCookies();
             if (cookies == null) {
-                return false;
+                return new AuthCheckResponse(false,new AuthenticationResponseDto(null));
             }
             String token = null;
             for (Cookie cookie : cookies) {
@@ -102,27 +103,30 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 }
             }
             if (token == null) {
-                return false;
+                return new AuthCheckResponse(false,new AuthenticationResponseDto(null));
             }
             log.info("token: {}",token);
             String username = jwtService.extractUsername(token);
             if (username == null) {
-                return false;
+                return new AuthCheckResponse(false,new AuthenticationResponseDto(null));
             }
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if (userDetails == null) {
-                return false;
+                return new AuthCheckResponse(false,new AuthenticationResponseDto(null));
             }
             log.info("user: {}",userDetails);
-            return jwtService.isTokenValid(token, userDetails);
+            if(jwtService.isTokenValid(token,userDetails)){
+                return new AuthCheckResponse(true,new AuthenticationResponseDto(userDetails.getUsername()));
+            }
+            return new AuthCheckResponse(false,new AuthenticationResponseDto(null));
 
         } catch (ExpiredJwtException e) {
-            return false;
+            return new AuthCheckResponse(false,new AuthenticationResponseDto(null));
         } catch (JwtException e) {
-            return false;
+            return new AuthCheckResponse(false,new AuthenticationResponseDto(null));
         } catch (Exception e) {
             log.error("Error during authentication check", e);
-            return false;
+            return new AuthCheckResponse(false,new AuthenticationResponseDto(null));
         }
     }
 

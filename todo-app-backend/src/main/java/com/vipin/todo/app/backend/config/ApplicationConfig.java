@@ -1,5 +1,4 @@
 package com.vipin.todo.app.backend.config;
-
 import com.vipin.todo.app.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

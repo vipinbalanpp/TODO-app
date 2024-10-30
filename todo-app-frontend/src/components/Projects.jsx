@@ -63,7 +63,7 @@ const Projects = () => {
     <>
       <div className="flex flex-col justify-start pt-5 h-screen items-center bg-gray-100">
         <div className="bg-white flex flex-col items-center p-8 rounded-lg shadow-md w-full max-w-6xl h-[600px] mt-10">
-          <p className="text-center font-bold text-3xl underline mb-8 text-indigo-700">
+          <p className="text-center font-bold text-3xl  mb-8 text-black">
             Projects
           </p>
           <div className="w-3/4 h-3/4 flex flex-col items-center">
@@ -71,24 +71,39 @@ const Projects = () => {
               {projects.length > 0 &&
                 projects.map((project) => (
                   <li
-                    onClick={() => navigate(`/projectDetials/${project.title}`)}
+                    onClick={() => navigate(`/projectDetails/${project.title}`)}
                     key={project.id}
-                    className="bg-indigo-100 hover:bg-indigo-200 transition duration-300 ease-in-out rounded-lg p-5 shadow-lg"
+                    className="bg-gradient-to-r cursor-pointer from-indigo-200 to-indigo-300 hover:from-indigo-300 hover:to-indigo-400 transition duration-300 ease-in-out rounded-lg p-5 shadow-lg flex items-center space-x-3"
                   >
-                    <p className="font-semibold text-xl text-gray-800">
+                    <div className="flex-shrink-0">
+                      <svg
+                        className="w-8 h-8 text-indigo-600"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M9 5v14l11-7L9 5z"
+                        />
+                      </svg>
+                    </div>
+                    <p className="font-semibold text-xl text-gray-800 hover:text-gray-900 transition duration-200">
                       {project.title}
                     </p>
-                    {/* <p className="text-gray-600 mt-2">
-                      Description of Project 5
-                    </p> */}
                   </li>
                 ))}
             </ul>
-            <div className="p-32">
-              <p className="text-lg text-gray-500 font-bold">
-                No projects created yet
-              </p>
-            </div>
+            {projects.length === 0 && (
+              <div className="p-32">
+                <p className="text-lg text-gray-500 font-bold">
+                  No projects created yet
+                </p>
+              </div>
+            )}
           </div>
           <button
             onClick={() => setAddProductModalOpen(true)}

@@ -1,5 +1,6 @@
 package com.vipin.todo.app.backend.service;
 
+import com.vipin.todo.app.backend.model.dto.AuthCheckResponse;
 import com.vipin.todo.app.backend.model.dto.AuthenticationResponseDto;
 import com.vipin.todo.app.backend.model.dto.RegisterRequestDto;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,7 +11,7 @@ public interface AuthenticationService {
 
     AuthenticationResponseDto authenticate(RegisterRequestDto request,HttpServletResponse response);
 
-    Boolean checkAuthentication(HttpServletRequest request);
+    AuthCheckResponse checkAuthentication(HttpServletRequest request);
 
     void handleLogout(HttpServletRequest request, HttpServletResponse response);
 

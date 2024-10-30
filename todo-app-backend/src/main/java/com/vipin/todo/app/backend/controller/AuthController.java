@@ -1,4 +1,5 @@
 package com.vipin.todo.app.backend.controller;
+import com.vipin.todo.app.backend.model.dto.AuthCheckResponse;
 import com.vipin.todo.app.backend.model.dto.AuthenticationResponseDto;
 import com.vipin.todo.app.backend.model.dto.RegisterRequestDto;
 import com.vipin.todo.app.backend.service.AuthenticationService;
@@ -30,7 +31,7 @@ public class AuthController {
         return ResponseEntity.ok(authenticationService.authenticate(request,response));
     }
     @GetMapping("/check")
-    public ResponseEntity<Boolean> authenticationCheck(HttpServletRequest request){
+    public ResponseEntity<AuthCheckResponse> authenticationCheck(HttpServletRequest request){
         return new ResponseEntity<>(authenticationService.checkAuthentication(request), HttpStatus.OK);
     }
     @PostMapping("/logout")

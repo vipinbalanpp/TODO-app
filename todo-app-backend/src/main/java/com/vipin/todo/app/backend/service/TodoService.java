@@ -10,4 +10,10 @@ public interface TodoService {
 
 
     TodoDto createTodo(Long projectId,TodoDto todoDto);
+
+    List<TodoDto> updateTodoAsCompleted(List<Long> todoIds);
+
+    void deleteTodoById(Long todoId);
+
+    TodoDto editTodoDescription(Long todoId,String newDescription);
 }

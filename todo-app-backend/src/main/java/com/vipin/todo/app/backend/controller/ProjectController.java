@@ -2,7 +2,6 @@ package com.vipin.todo.app.backend.controller;
 import com.vipin.todo.app.backend.model.dto.ProjectDto;
 import com.vipin.todo.app.backend.service.ProjectService;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
